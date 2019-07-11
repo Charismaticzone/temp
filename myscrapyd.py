@@ -1,9 +1,3 @@
-"""
-(oneapp) shiyanlou:~/ $ cd ~
-(oneapp) shiyanlou:~/ $ rm -rf temp
-(oneapp) shiyanlou:~/ $ git clone https://github.com/my8100/temp.git
-(oneapp) shiyanlou:~/ $ cp -r temp/* .
-"""
 from distutils.dir_util import copy_tree
 import os
 from shutil import rmtree
@@ -14,7 +8,7 @@ from requests import Session
 
 CWD = os.path.dirname(os.path.abspath(__file__))
 BASE = 'http://localhost:8080/'
-# BASE = 'http://localhost:6800/'
+BASE = 'http://localhost:6800/'
 session = Session()
 
 
@@ -45,7 +39,7 @@ def stop():
                 for i in range(2):
                     print(status, project, job_['spider'], job_['id'])
                     print(session.post(BASE + 'cancel.json', data=dict(project=project, job=job_['id'])).json())
-    status()                
+    status()
 
 
 def restore():
