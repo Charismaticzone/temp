@@ -10,14 +10,16 @@ BASE = 'http://localhost:8080/'
 # BASE = 'http://localhost:6800/'
 session = Session()
 
-if len(sys.argv) != 2 or sys.argv[1] not in ['start', 'stop', 'restore']:
+if len(sys.argv) != 2 or sys.argv[1] not in ['status', 'start', 'stop', 'restore']:
     sys.exit("""
         Run 'python scrapyd.py start' to start spiders;
         Run 'python scrapyd.py stop' to stop spiders;
         Run 'python scrapyd.py restore' to restore projects eggs.
     """)
-
-if sys.argv[1] == 'start':
+    
+if sys.argv[1] == 'status':    
+    print(session.get(BASE + 'daemonstatus.json').json())
+elif sys.argv[1] == 'start':
     print("starting spiders")
     for (project, spider) in [
         ('demo_short', 'test_short'),
