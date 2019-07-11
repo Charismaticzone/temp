@@ -25,7 +25,7 @@ def start():
         ('demo_short', 'test_short'),
     ]:
         print(session.post(BASE + 'schedule.json', data=dict(project=project, spider=spider)).json())
-        for i in range(5, 0, -1):
+        for i in range(10, 0, -1):
             print(i)
             time.sleep(1)
     status()    
