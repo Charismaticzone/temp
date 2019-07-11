@@ -36,6 +36,7 @@ elif sys.argv[1] == 'stop':
         for status in ['pending', 'running']:
             for job_ in result[status]:
                 for i in range(2):
+                    print(status, project, job_['spider'], job_['id'])
                     print(session.post(BASE + 'cancel.json', data=dict(project=project, job=job_['id'])).json())
 else:
     print("restoring projects eggs")
