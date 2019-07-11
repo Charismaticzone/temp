@@ -8,6 +8,7 @@ from distutils.dir_util import copy_tree
 import os
 from shutil import rmtree
 import sys
+import time
 
 from requests import Session
 
@@ -16,16 +17,12 @@ BASE = 'http://localhost:8080/'
 # BASE = 'http://localhost:6800/'
 session = Session()
 
-if len(sys.argv) != 2 or sys.argv[1] not in ['status', 'start', 'stop', 'restore']:
-    sys.exit("""
-        Run 'python scrapyd.py start' to start spiders;
-        Run 'python scrapyd.py stop' to stop spiders;
-        Run 'python scrapyd.py restore' to restore projects eggs.
-    """)
 
-if sys.argv[1] == 'status':
+def status():
     print(session.get(BASE + 'daemonstatus.json').json())
-elif sys.argv[1] == 'start':
+
+
+def start():
     print("starting spiders")
     for (project, spider) in [
         ('demo_short', 'test_short'),
@@ -34,7 +31,10 @@ elif sys.argv[1] == 'start':
         ('demo_short', 'test_short'),
     ]:
         print(session.post(BASE + 'schedule.json', data=dict(project=project, spider=spider)).json())
-elif sys.argv[1] == 'stop':
+        time.sleep(2)
+
+
+def stop():
     print("stopping spiders")
     projects = session.get(BASE + 'listprojects.json').json()['projects']
     for project in projects:
@@ -45,7 +45,9 @@ elif sys.argv[1] == 'stop':
                 for i in range(2):
                     print(status, project, job_['spider'], job_['id'])
                     print(session.post(BASE + 'cancel.json', data=dict(project=project, job=job_['id'])).json())
-else:
+
+
+def restore():
     print("restoring projects eggs")
     os.chdir(CWD)
     eggs_path = os.path.join(CWD, 'eggs')
@@ -53,3 +55,20 @@ else:
     print("dir eggs removed")
     copy_tree(os.path.join(CWD, 'eggs_backup'), os.path.join(CWD, 'eggs'))
     print("dir eggs_backup copied to dir eggs")
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2 or sys.argv[1] not in ['status', 'start', 'stop', 'restore']:
+        sys.exit("""
+            Run 'python scrapyd.py start' to start spiders;
+            Run 'python scrapyd.py stop' to stop spiders;
+            Run 'python scrapyd.py restore' to restore projects eggs.
+        """)
+    if sys.argv[1] == 'status':
+        status()
+    elif sys.argv[1] == 'start':
+        start()
+    elif sys.argv[1] == 'stop':
+        stop()
+    else:
+        restore()
