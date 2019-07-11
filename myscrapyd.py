@@ -35,10 +35,10 @@ def stop():
     for project in projects:
         result = session.get(BASE + 'listjobs.json?project=%s' % project).json()
         print(result)
-        for status in ['pending', 'running']:
-            for job_ in result[status]:
+        for status_ in ['pending', 'running']:
+            for job_ in result[status_]:
                 for i in range(2):
-                    print(status, project, job_['spider'], job_['id'])
+                    print(status_, project, job_['spider'], job_['id'])
                     print(session.post(BASE + 'cancel.json', data=dict(project=project, job=job_['id'])).json())
     status()
 
