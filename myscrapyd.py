@@ -1,3 +1,9 @@
+"""
+(oneapp) shiyanlou:~/ $ cd ~
+(oneapp) shiyanlou:~/ $ rm -rf temp
+(oneapp) shiyanlou:~/ $ git clone https://github.com/my8100/temp.git
+(oneapp) shiyanlou:~/ $ cp -r temp/* .
+"""
 from distutils.dir_util import copy_tree
 import os
 from shutil import rmtree
@@ -16,8 +22,8 @@ if len(sys.argv) != 2 or sys.argv[1] not in ['status', 'start', 'stop', 'restore
         Run 'python scrapyd.py stop' to stop spiders;
         Run 'python scrapyd.py restore' to restore projects eggs.
     """)
-    
-if sys.argv[1] == 'status':    
+
+if sys.argv[1] == 'status':
     print(session.get(BASE + 'daemonstatus.json').json())
 elif sys.argv[1] == 'start':
     print("starting spiders")
