@@ -33,6 +33,7 @@ elif sys.argv[1] == 'stop':
     projects = session.get(BASE + 'listprojects.json').json()['projects']
     for project in projects:
         result = session.get(BASE + 'listjobs.json?project=%s' % project).json()
+        print(result)
         for status in ['pending', 'running']:
             for job_ in result[status]:
                 for i in range(2):
@@ -43,4 +44,6 @@ else:
     os.chdir(CWD)
     eggs_path = os.path.join(CWD, 'eggs')
     rmtree(os.path.join(CWD, 'eggs'), ignore_errors=True)
+    print("dir eggs removed")
     copy_tree(os.path.join(CWD, 'eggs_backup'), os.path.join(CWD, 'eggs'))
+    print("dir eggs_backup copied to dir eggs")
