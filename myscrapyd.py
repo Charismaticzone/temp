@@ -45,6 +45,7 @@ def stop():
                 for i in range(2):
                     print(status, project, job_['spider'], job_['id'])
                     print(session.post(BASE + 'cancel.json', data=dict(project=project, job=job_['id'])).json())
+    status()                
 
 
 def restore():
