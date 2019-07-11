@@ -26,6 +26,7 @@ def start():
     ]:
         print(session.post(BASE + 'schedule.json', data=dict(project=project, spider=spider)).json())
         time.sleep(2)
+    status()    
 
 
 def stop():
