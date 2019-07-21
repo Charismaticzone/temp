@@ -19,16 +19,16 @@ def status():
 def start():
     print("starting spiders")
     for (project, spider) in [
-        ('demo_short', 'test_short'),
-        ('demo_short', 'test_short'),
-        ('demo_long', 'test_long'),
-        ('demo_short', 'test_short'),
+        ('project1', 'spider11'),
+        ('project1', 'spider11'),
+        ('project2', 'spider22'),
+        ('project1', 'spider11'),
     ]:
         print(session.post(BASE + 'schedule.json', data=dict(project=project, spider=spider)).json())
         for i in range(10, 0, -1):
             print(i)
             time.sleep(1)
-    status()    
+    status()
 
 
 def stop():
@@ -58,6 +58,7 @@ def restore():
 if __name__ == '__main__':
     if len(sys.argv) != 2 or sys.argv[1] not in ['status', 'start', 'stop', 'restore']:
         sys.exit("""
+            Run 'python scrapyd.py status' to check Scrapyd status;
             Run 'python scrapyd.py start' to start spiders;
             Run 'python scrapyd.py stop' to stop spiders;
             Run 'python scrapyd.py restore' to restore projects eggs.
